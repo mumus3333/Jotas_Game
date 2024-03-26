@@ -42,7 +42,7 @@ public class Player extends Entity{
     public void SetDefaultValues(){
         worldX = gp.tileSize *23;
         worldY = gp.tileSize * 21;
-        speed = 4;
+        speed = 2;
         direction = "down";
     }
 
@@ -82,7 +82,67 @@ public class Player extends Entity{
     
     
     public void update() {
-        long now = System.nanoTime();
+
+    if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true ||
+    keyH.rightPressed == true){
+
+        if (keyH.upPressed) {
+            direction = "up";
+        
+        } else if (keyH.downPressed) {
+            direction = "down";
+            
+        } else if (keyH.leftPressed) {
+            direction = "left";
+            
+        } else if (keyH.rightPressed) {
+            direction = "right";
+        
+        }
+
+        collisionOn = false;
+        gp.cCheker.checkTile(this);
+
+        if(collisionOn == false){
+
+            switch (direction) {
+                case "up":
+                worldY -= speed;
+                    break;
+                case "down":
+                worldY += speed;
+                    break; 
+                case "left":
+                worldX -= speed; 
+                    break; 
+                case "right":
+                     worldX += speed;
+                    break;   
+            
+                default:
+                    break;
+            }
+
+        }
+
+        spriteCounter++;
+        if(spriteCounter > 24){
+            if(spriteNum == 1){
+                spriteNum = 2;
+            }
+            else if(spriteNum ==2){
+                spriteNum = 1;
+            }
+            spriteCounter =0;
+        }
+
+    }
+  
+    
+    
+
+
+       /* long now = System.nanoTime();
         long elapsedTime = now - lastUpdateTime;
     
        
@@ -135,8 +195,10 @@ public class Player extends Entity{
     
     }
         
-      
-    
+
+    */
+
+    }
     
     public void draw(Graphics2D g2){
        BufferedImage image = null;
@@ -230,6 +292,6 @@ public class Player extends Entity{
 
        g2.drawImage(image,screenX,screenY, gp.tileSize, gp.tileSize, null);
 
-    }
+    } 
 
 }
